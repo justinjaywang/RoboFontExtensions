@@ -13,10 +13,9 @@ from defconAppKit.controls.glyphLineView import GlyphLineView
 
 from lib.fontObjects.doodleFontCompiler.emptyCompiler import EmptyOTFCompiler
 
-from mojo.roboFont import OpenWindow
 
 class FeatureTester(BaseWindowController):
-    
+
     def __init__(self, font):
         if font is None:
             print "A open UFO is needed"
@@ -25,22 +24,21 @@ class FeatureTester(BaseWindowController):
         font = font.naked()
         self.font = font
         self.featureFont = None
-        
-        
+
         topHeight = 40
         left = 160
-        
+
         self.w = Window((700, 400), "Feature Preview", minSize=(300, 300))
-        
+
         previewGroup = Group((0, 0, -0, -0))
         self.glyphLineInputPosSize = (10, 10, -85, 22)
         self.glyphLineInputPosSizeWithSpinner = (10, 10, -106, 22)
         previewGroup.glyphNameInput = self.glyphLineInput = GlyphSequenceEditText(self.glyphLineInputPosSize, font, callback=self.glyphLineViewInputCallback)
         previewGroup.progressSpinner = self.glyphLineProgressSpinner = ProgressSpinner((-98, 13, 16, 16), sizeStyle="small")
         previewGroup.updateButton = self.glyphLineUpdateButton = Button((-75, 11, -10, 20), "Update", callback=self.updateFeatureFontCallback)
-        
+
         self.w.pg = previewGroup
-        
+
         # tab container
         self.w.previewTabs = Tabs((left, topHeight, -0, -0), ["Preview", "Records"], showTabs=False)
         # line view
@@ -60,44 +58,44 @@ class FeatureTester(BaseWindowController):
         self.w.controlsView = self.glyphLineControls = OpenTypeControlsView((0, topHeight, left+1, 0), self.glyphLineViewControlsCallback)
 
         self.font.addObserver(self, "_fontChanged", "Font.Changed")
-        
+
         self.w.setDefaultButton(self.glyphLineUpdateButton)
         self.w.bind("close", self.windowClose)
         self.setUpBaseWindowBehavior()
-        
+
         document = roboFabFont.document()
         if document is not None:
             document.addWindowController_(self.w.getNSWindowController())
-        
+
         self.w.open()
-        
+
         self.updateFeatureFontCallback(None)
-        
+
     def windowClose(self, sender):
         self.destroyFeatureFont()
         self.font.removeObserver(self, "Font.Changed")
-        
+
     def destroyFeatureFont(self):
         if self.featureFont is not None:
             path = self.featureFont.path
             self.featureFont = None
             os.remove(path)
-            
+
     def _fontChanged(self, notification):
         self.w.setDefaultButton(self.glyphLineUpdateButton)
-        #self.glyphLineUpdateButton.enable(True)
-        
+        # self.glyphLineUpdateButton.enable(True)
+
     def glyphLineViewInputCallback(self, sender):
         self.updateGlyphLineView()
-    
+
     def updateFeatureFontCallback(self, sender):
         self._compileFeatureFont()
         self.updateGlyphLineViewViewControls()
         self.updateGlyphLineView()
-    
+
     def glyphLineViewControlsCallback(self, sender):
         self.updateGlyphLineView()
-    
+
     def _compileFeatureFont(self, showReport=True):
         # reposition the text field
         self.glyphLineInput.setPosSize(self.glyphLineInputPosSizeWithSpinner)
@@ -107,7 +105,7 @@ class FeatureTester(BaseWindowController):
         # compile
         path = tempfile.mkstemp()[1]
         compiler = EmptyOTFCompiler()
-        ## clean up
+        # clean up
         if self.font.info.openTypeOS2WinDescent is not None and self.font.info.openTypeOS2WinDescent < 0:
             self.font.info.openTypeOS2WinDescent = abs(self.font.info.openTypeOS2WinDescent)
         self.font.info.postscriptNominalWidthX = None
@@ -117,7 +115,7 @@ class FeatureTester(BaseWindowController):
             self.featureFont = FeatureFont(path)
         else:
             self.featureFont = None
-        
+
             if showReport:
                 report = []
                 if reports["makeotf"] is not None:
@@ -126,16 +124,16 @@ class FeatureTester(BaseWindowController):
                             continue
                         report.append(line)
                 self.showMessage("Error while compiling features", "\n".join(report))
-                
+
         # stop the progress
         self.glyphLineProgressSpinner.stop()
         # color the update button
         window = self.w.getNSWindow()
         window.setDefaultButtonCell_(None)
-        #self.glyphLineUpdateButton.enable(False)
+        # self.glyphLineUpdateButton.enable(False)
         # reposition the text field
         self.glyphLineInput.setPosSize(self.glyphLineInputPosSize)
-    
+
     def updateGlyphLineView(self):
         # get the settings
         settings = self.glyphLineControls.get()
@@ -190,7 +188,7 @@ class FeatureTester(BaseWindowController):
             # set the UFO's glyphs into the records
             finalRecords = []
             for glyphRecord in glyphRecords:
-                if not glyphRecord.glyphName in self.font:
+                if glyphRecord.glyphName not in self.font:
                     continue
                 glyphRecord.glyph = self.font[glyphRecord.glyphName]
                 finalRecords.append(glyphRecord)
@@ -198,7 +196,7 @@ class FeatureTester(BaseWindowController):
             self.glyphLineView.set(finalRecords)
             records = [dict(Name=record.glyph.name, XP=record.xPlacement, YP=record.yPlacement, XA=record.xAdvance, YA=record.yAdvance, Alternates=", ".join(record.alternates)) for record in finalRecords]
             self.glyphRecordsList.set(records)
-            
+
     def updateGlyphLineViewViewControls(self):
         if self.featureFont is not None:
             existingStates = self.glyphLineControls.get()
