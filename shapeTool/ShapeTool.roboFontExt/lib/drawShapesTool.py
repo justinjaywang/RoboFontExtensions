@@ -90,6 +90,7 @@ class DrawGeometricShapesTool(BaseEventTool):
         self.shape = "rect"
         self.origin = "corner"
         self.moveShapeShift = None
+        self.shouldReverse = False
 
     def getRect(self):
         ## return the rect between mouse down and mouse up
@@ -134,7 +135,9 @@ class DrawGeometricShapesTool(BaseEventTool):
 
         ## get the pen to draw with
         pen = glyph.getPointPen()
-        if glyph.preferredSegmentType == "qcurve":
+        if glyph.preferredSegmentType == "qcurve" and not self.shouldReverse:
+            pen = ReverseContourPointPen(pen)
+        elif self.shouldReverse:
             pen = ReverseContourPointPen(pen)
 
         x, y, w, h = rect
@@ -193,7 +196,7 @@ class DrawGeometricShapesTool(BaseEventTool):
                             x=self.minPoint.x,
                             y=self.minPoint.y)
 
-    def mouseDragged(self, point, delta):        
+    def mouseDragged(self, point, delta):
         ## record the draggin point
         self.maxPoint = point
         ## if shift the minPoint by the move shift
@@ -210,11 +213,17 @@ class DrawGeometricShapesTool(BaseEventTool):
         self.minPoint = None
         self.maxPoint = None
 
+    def keyDown(self, event):
+        # reverse on tab
+        if event.characters() == "\t":
+            self.shouldReverse = not self.shouldReverse
+            self.getNSView().refresh()
+
     def modifiersChanged(self):
         ## is been called when the modifiers changed (shift, alt, control, command)
         self.shape = "rect"
         self.origin = "corner"
-        
+
         ## change the shape when option is down
         if self.optionDown:
             self.shape = "oval"
@@ -239,7 +248,10 @@ class DrawGeometricShapesTool(BaseEventTool):
             x, y, w, h = self.getRect()
             rect = NSMakeRect(x, y, w, h)
             ## set the color
-            NSColor.redColor().set()
+            if self.shouldReverse:
+                NSColor.blueColor().set()
+            else:
+                NSColor.redColor().set()
 
             if self.shape == "rect":
                 ## create a rect path
