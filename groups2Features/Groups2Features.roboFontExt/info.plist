@@ -32,10 +32,13 @@
 	<key>timeStamp</key>
 	<real>1327057422.398952</real>
 	<key>version</key>
-	<string>1.0</string>
-	<key>repository</key>
-	<string>typemytype/RoboFontExtensions</string>
-	<key>extensionPath</key>
-	<string>groups2Features/Groups2Features.roboFontExt</string>
+	<string>1.1</string>
+	<key>com.robofontmechanic.Mechanic</key>
+	<dict>
+		<key>repository</key>
+		<string>typemytype/groups2featuresRoboFontExtension</string>
+		<key>summary</key>
+		<string>Format font groups to feature groups.</string>
+	</dict>
 </dict>
 </plist>

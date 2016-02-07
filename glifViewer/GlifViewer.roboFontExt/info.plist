@@ -28,14 +28,17 @@
 	<key>timeStamp</key>
 	<real>1320533587.198683</real>
 	<key>version</key>
-	<string>1.1</string>
-	<key>repository</key>
-	<string>typemytype/RoboFontExtensions</string>
+	<string>1.2</string>
 	<key>requiresVersionMajor</key>
 	<string>1</string>
 	<key>requiresVersionMinor</key>
 	<string>5</string>
-	<key>extensionPath</key>
-	<string>glifViewer/GlifViewer.roboFontExt</string>
+	<key>com.robofontmechanic.Mechanic</key>
+	<dict>
+		<key>repository</key>
+		<string>typemytype/glifViewerRoboFontExtension</string>
+		<key>summary</key>
+		<string>View and edit the current glyph .glif data.</string>
+	</dict>
 </dict>
 </plist>

@@ -32,10 +32,13 @@
 	<key>timeStamp</key>
 	<real>1339084427.46032</real>
 	<key>version</key>
-	<string>1.0</string>
-	<key>repository</key>
-	<string>typemytype/RoboFontExtensions</string>
-	<key>extensionPath</key>
-	<string>LayerPreview/LayerPreview.roboFontExt</string>
+	<string>1.1</string>
+	<key>com.robofontmechanic.Mechanic</key>
+	<dict>
+		<key>repository</key>
+		<string>typemytype/layerPreviewRoboFontExtension</string>
+		<key>summary</key>
+		<string>Preview layers and test install separate layers.</string>
+	</dict>
 </dict>
 </plist>

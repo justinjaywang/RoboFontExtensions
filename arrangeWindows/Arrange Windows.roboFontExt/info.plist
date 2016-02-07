@@ -23,10 +23,13 @@
 	<key>timeStamp</key>
 	<real>1351798925.8295441</real>
 	<key>version</key>
-	<string>1.1</string>
-	<key>repository</key>
-	<string>typemytype/RoboFontExtensions</string>
-	<key>extensionPath</key>
-	<string>arrangeWindows/Arrange Windows.roboFontExt</string>
+	<string>1.2</string>
+	<key>com.robofontmechanic.Mechanic</key>
+	<dict>
+		<key>repository</key>
+		<string>typemytype/arrangeWindowsRoboFontExtension</string>
+		<key>summary</key>
+		<string>Cascase windows inside RoboFont.</string>
+	</dict
 </dict>
 </plist>
