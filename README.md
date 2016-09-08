@@ -1,6 +1,11 @@
 RoboFont Extensions
 ===================
 
+# Deprecated: each extension has his own repo
+
+
+----
+
 A collection of extensions for [RoboFont](http://robofont.com)
 
 [Installing extensions](http://doc.robofont.com/extensions/installing-extensions/)
