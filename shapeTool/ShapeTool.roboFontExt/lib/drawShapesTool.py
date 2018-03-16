@@ -36,20 +36,20 @@ class GeometricShapesWindow(object):
                             cancelCallback=self.cancelCallback)
 
         # add some text boxes
-        self.w.xText = TextBox((10, 13, 100, 22), "x")
-        self.w.yText = TextBox((10, 43, 100, 22), "y")
-        self.w.wText = TextBox((100, 13, 100, 22), "w")
-        self.w.hText = TextBox((100, 43, 100, 22), "h")
+        self.w.xText = TextBox((10, 43, 100, 22), "x")
+        self.w.wText = TextBox((10, 13, 100, 22), "w")
+        self.w.yText = TextBox((100, 43, 100, 22), "y")
+        self.w.hText = TextBox((100, 13, 100, 22), "h")
 
         # adding input boxes
-        self.w.xInput = EditText((30, 10, 50, 22), "%i" % x)
-        self.w.yInput = EditText((30, 40, 50, 22), "%i" % y)
-        self.w.wInput = EditText((120, 10, 50, 22))
-        self.w.hInput = EditText((120, 40, 50, 22))
+        self.w.xInput = EditText((30, 40, 50, 22), "%i" % x)
+        self.w.wInput = EditText((30, 10, 50, 22))
+        self.w.yInput = EditText((120, 40, 50, 22), "%i" % y)
+        self.w.hInput = EditText((120, 10, 50, 22))
 
         # a radio shape choice group
         # (the RadioGroup isn't standaard in dialogKit, this is a vanilla object)
-        self.shapes = ["rect", "oval"]
+        self.shapes = ["oval", "rect"]
         self.w.shape = RadioGroup((10, 70, -10, 22), self.shapes, isVertical=False)
         self.w.shape.set(0)
 
